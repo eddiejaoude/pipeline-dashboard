@@ -161,8 +161,6 @@
 
 .footer {
   &__copyright {
-    text-align: center;
-    white-space: pre-wrap;
     
     @media (max-width: $breakpoint-sm) {
       padding: 10px 0;
