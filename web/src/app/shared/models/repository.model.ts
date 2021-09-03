@@ -4,6 +4,7 @@ import { firestore } from 'firebase';
 
 // DashboardHub models
 import { ContributorModel } from './contributor.model';
+import { ProjectModel } from './index.model';
 import { IssueModel } from './issue.model';
 import { MilestoneModel } from './milestone.model';
 import { IModel, Model } from './model.model';
@@ -36,12 +37,15 @@ export interface IRepository extends IModel {
   issues?: IssueModel[];
   contributors?: ContributorModel[];
   milestones?: MilestoneModel[];
+  projects?: ProjectModel[];
   webhook?: WebhookModel;
   url?: string;
   forksCount?: number;
   stargazersCount?: number;
   watchersCount?: number;
   lastUpdated?: firestore.Timestamp;
+  updatedAt?: firestore.Timestamp;
+  resetWebhook?: boolean;
 }
 
 /**
@@ -66,6 +70,7 @@ export class RepositoryModel extends Model<IRepository> implements IRepository {
     name: string;
   };
   pullRequests?: PullRequestModel[];
+  projects?: ProjectModel[];
   events?: Event[];
   releases?: ReleaseModel[];
   issues?: IssueModel[];
@@ -77,6 +82,8 @@ export class RepositoryModel extends Model<IRepository> implements IRepository {
   stargazersCount: number;
   watchersCount: number;
   lastUpdated: firestore.Timestamp;
+  updatedAt: firestore.Timestamp;
+  resetWebhook?: boolean;
 
   constructor(repository: IRepository) {
     super();
@@ -94,6 +101,7 @@ export class RepositoryModel extends Model<IRepository> implements IRepository {
     this.branch = repository.branch ? repository.branch : undefined;
     this.license = repository.license ? repository.license : undefined;
     this.pullRequests = repository.pullRequests ? repository.pullRequests : undefined;
+    this.projects = repository.projects ? repository.projects : undefined;
     this.events = repository.events ? repository.events : undefined;
     this.releases = repository.releases ? repository.releases : undefined;
     this.issues = repository.issues ? repository.issues : undefined;
@@ -104,6 +112,8 @@ export class RepositoryModel extends Model<IRepository> implements IRepository {
     this.forksCount = repository.forksCount ? repository.forksCount : undefined;
     this.stargazersCount = repository.stargazersCount ? repository.stargazersCount : undefined;
     this.lastUpdated = repository.lastUpdated ? repository.lastUpdated : undefined;
+    this.updatedAt = repository.updatedAt ? repository.updatedAt : undefined;
+    this.resetWebhook = repository.resetWebhook ? repository.resetWebhook : false;
   }
 
   public calculateRating(): number {

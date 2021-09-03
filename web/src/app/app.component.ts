@@ -80,6 +80,11 @@ export class AppComponent implements AfterViewInit, OnInit {
       route: '/admin/users',
       icon: 'person',
     },
+    {
+      title: 'Configure webhooks',
+      route: '/admin/webhooks',
+      icon: 'dashboard',
+    },
   ];
   public version: string;
   public isSmallScreen: boolean;

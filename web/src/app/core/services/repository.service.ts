@@ -75,6 +75,16 @@ export class RepositoryService {
   }
 
   /**
+   * Call cloud function create webhook manually
+   * @param repo repository
+   */
+  public createGitWebhooks(repos: IRepository[]): Observable<RepositoryModel> {
+    const callable: any = this.fns.httpsCallable('createGitWebhooks');
+
+    return of(new RepositoryModel(callable({ repositoryUids: repos.map((repo: IRepository) => repo.uid) })));
+  }
+
+  /**
    * Call cloud function to delete webhook manually
    * @param repo repository
    */
@@ -92,5 +102,21 @@ export class RepositoryService {
     const callable: any = this.fns.httpsCallable('findPullRequestStatus');
 
     return callable({ token: this.authService.profile.oauth.githubToken, repository: { fullName: fullName, ref: ref } });
+  }
+
+  /**
+   * Find all repositories
+   */
+  public findAllRepositories(): Observable<RepositoryModel[]> {
+    return this.activityService
+      .start()
+      .pipe(
+        switchMap(() => this.afs
+          .collection<IRepository>(
+            'repositories'
+          )
+          .valueChanges()),
+        map((repositories: IRepository[]) => repositories.map((repository: IRepository) => new RepositoryModel(repository)))
+      );
   }
 }

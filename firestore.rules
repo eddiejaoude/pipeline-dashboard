@@ -41,7 +41,7 @@ service cloud.firestore {
     match /repositories/{repository} {
       allow create: if false;
       allow get: if resource.data.private == false;
-      allow list: if false;
+      allow list: if isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin;
       allow update: if false;
       allow delete: if false;
     }

@@ -1,15 +1,20 @@
 import { enviroment } from '../environments/environment';
 import { GitHubRepositoryWebhookMapper, GitHubRepositoryWebhookModel, GitHubRepositoryWebhookRequestCreate, GitHubRepositoryWebhookResponse } from '../mappers/github/webhook.mapper';
 import { RepositoryModel } from '../models/index.model';
-import { DocumentData, DocumentReference } from './../client/firebase-admin';
+import { DocumentData, DocumentReference, FirebaseAdmin, WriteResult } from './../client/firebase-admin';
 import { GitHubClientPost } from './../client/github';
 import { Logger } from './../client/logger';
 import { deleteWebhook } from './delete-git-webhook-repository';
 import { findWebhook } from './find-git-webhook-repository';
+import { getRepositoryInfo } from './info';
 
 export interface CreateGitWebhookRepositoryInput {
   token: string;
   repositoryUid: string;
+}
+
+export interface CreateGitWebhooksInput {
+  repositoryUids: string[];
 }
 
 export const onCreateGitWebhookRepository: any = async (token: string, repositoryUid: string) => {
@@ -20,9 +25,12 @@ export const onCreateGitWebhookRepository: any = async (token: string, repositor
     const webhook: GitHubRepositoryWebhookModel = await getWebhook(repository.fullName, token);
 
     repository.webhook = webhook;
+    repository.resetWebhook = false;
     await repositorySnapshot.update(repository);
 
     Logger.info(webhook ? 'Webhook created' : 'Webhook empty');
+
+    await getRepositoryInfo(token, repository);
 
     return repository;
   } catch (error) {
@@ -80,3 +88,15 @@ export async function getWebhook(repositoryFullName: string, token: string): Pro
   Logger.info('Webhook is creating');
   return GitHubRepositoryWebhookMapper.import(await createWebhook(repositoryFullName, token));
 }
+
+export const onCreateGitWebhooks: any = async (repositoryUids: string[]) => {
+  const promises: Promise<WriteResult>[] = [];
+  repositoryUids.forEach((repoUid: string) =>
+    promises.push(FirebaseAdmin
+      .firestore()
+      .collection('repositories')
+      .doc(repoUid)
+      .set({ resetWebhook: true }, { merge: true }))
+  );
+  await Promise.all(promises);
+};

@@ -1,4 +1,4 @@
-<div class="repository__problem" *ngIf="isAdmin && isAlertEnabled && repository.fullName !== '' && (repository.webhook == null || repository.webhook.id == null)">
+<div class="repository__problem" *ngIf="isAdmin && isAlertEnabled && repository.fullName !== '' && (repository.webhook == null || repository.webhook.id == null || repository.resetWebhook)">
   <mat-card class="repository__problem__card" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" fxLayout.xs="column">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" fxLayout.xs="column">
       <div>

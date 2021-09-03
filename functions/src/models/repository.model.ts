@@ -34,6 +34,7 @@ export interface IRepository {
   fullName: string;
   uid?: string;
   webhook?: IWebhook;
+  resetWebhook?: boolean;
 }
 
 export class RepositoryModel implements IRepository {
@@ -41,6 +42,7 @@ export class RepositoryModel implements IRepository {
   fullName: string;
   uid?: string;
   webhook?: IWebhook;
+  resetWebhook?: boolean;
 
   public static getRepositoryReference(uid: string): DocumentReference {
     return FirebaseAdmin.firestore().collection('repositories').doc(uid);

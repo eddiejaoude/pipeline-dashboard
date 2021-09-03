@@ -1,0 +1,72 @@
+<div class="webhooks">
+  <div class="webhooks__header">
+    <span fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="end start">
+      <div class="webhooks__header__content__item" fxLayout="row" fxLayoutGap="5px" (click)="createWebhooks(repositories)">
+        <mat-icon class="material-icons-outlined dark-orange-color">desktop_windows</mat-icon><span> Reset All </span>
+      </div>
+    </span>
+  </div>
+  <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign.lt-lg="space-between scretch" fxLayoutAlign="space-between center">
+    <mat-card class="webhooks__webhooks-card" fxFlex="100%">
+      <mat-card-header>
+        <div class="webhooks__webhooks-card__header">
+          <mat-icon class="material-icons-outlined">dashboard</mat-icon>
+        </div>
+        <mat-card-title class="webhooks__webhooks-card__title"> Configure webhooks </mat-card-title>
+        <mat-card-subtitle class="webhooks__webhooks-card__title__subtitle"> Create webhooks </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content class="webhooks__webhooks-card__content" *ngIf="repositories">
+        <table mat-table [dataSource]="repositories" class="webhooks__webhooks-card__content__table">
+
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef>Full Name</th>
+            <td mat-cell *matCellDef="let element">
+              <div fxLayout.xs="column" fxLayoutAlign.xs="start start" class="webhooks__webhooks-card__content__table__title">
+                {{element.fullName}}
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="projectLength">
+            <th mat-header-cell *matHeaderCellDef>Project Count </th>
+            <td mat-cell *matCellDef="let element" class="webhooks__webhooks-card__content__table__description">
+              <div *ngIf="element.projects" class="webhooks__webhooks-card__content__table__description">
+                {{ element.projects.length }}
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="webhookUpdatedOn">
+            <th mat-header-cell *matHeaderCellDef>Webhook last updated </th>
+            <td mat-cell *matCellDef="let element" class="webhooks__webhooks-card__content__table__description">
+              <div *ngIf="element.webhook" class="webhooks__webhooks-card__content__table__description">
+                {{ element.webhook.updatedOn.toDate() | timeAgo }}
+              </div>
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="updatedAt">
+            <th mat-header-cell *matHeaderCellDef>Last updated </th>
+            <td mat-cell *matCellDef="let element" class="webhooks__webhooks-card__content__table__description">
+              <div *ngIf="element.updatedAt" class="webhooks__webhooks-card__content__table__description">
+                {{ element.updatedAt.toDate() | timeAgo }}
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element" class="webhooks__webhooks-card__content__table__description">
+              <button mat-stroked-button type="submit" color="warn" (click)="createWebhooks([element])">Reset Webhook </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+ </div>
