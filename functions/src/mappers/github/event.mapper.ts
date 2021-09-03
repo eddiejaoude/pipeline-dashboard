@@ -7,7 +7,7 @@ import { GitHubPayloadInput, GitHubPayloadMapper, GitHubPayloadModel } from './p
 import { GitHubRepositoryInput, GitHubRepositoryMapper, GitHubRepositoryModel } from './repository.mapper';
 import { GitHubUserInput, GitHubUserMapper, GitHubUserModel } from './user.mapper';
 
-export type GitHubEventType = 'PullRequestEvent' | 'IssueCommentEvent' | 'CreateEvent' | 'ReleaseEvent' | 'WatchEvent' | 'PushEvent' | 'IssuesEvent';
+export type GitHubEventType = 'PullRequestEvent' | 'PullRequestReviewCommentEvent' | 'IssueCommentEvent' | 'CreateEvent' | 'ReleaseEvent' | 'WatchEvent' | 'PushEvent' | 'IssuesEvent';
 
 export interface GitHubEventInput {
   id: string;
