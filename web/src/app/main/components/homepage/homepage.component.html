@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="start center">
     <div class="home__title">Homepage</div>
   </div>
-  <dashboard-stats></dashboard-stats>
+  <dashboard-stats [stats]="applicationStats"></dashboard-stats>
   <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign.lt-lg="space-between scretch" fxLayoutAlign="space-between start">
     <mat-card class="home__users-card" fxFlex="49">
       <mat-card-header>

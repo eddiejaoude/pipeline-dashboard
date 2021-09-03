@@ -1,8 +1,7 @@
 // Core modules
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 // Application model and services
-import { ApplicationService } from '@core/services/application.service';
 import { StatsModel } from '@shared/models/stats.model';
 
 /**
@@ -13,20 +12,14 @@ import { StatsModel } from '@shared/models/stats.model';
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss'],
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements OnChanges {
 
-  public stats: StatsModel;
-
-  /**
-   * Life cycle method
-   * @param applicationService application service
-   */
-  constructor(private applicationService: ApplicationService) { }
+  @Input() stats: StatsModel;
 
   /**
    * Life cycle init method
    */
-  ngOnInit(): void {
-    this.applicationService.getApplicationStats().subscribe((stats: StatsModel) => this.stats = stats);
+  ngOnChanges(simpleChanges: SimpleChanges): void {
+    this.stats = simpleChanges.stats.currentValue;
   }
 }

@@ -12,8 +12,11 @@ import { MainComponent } from './main.component';
 
 // Dashboard hub authentication guards
 import { AuthGuard } from '@core/guards/authentication.guard';
+import { ApplicationStatsResolver } from '@core/resolvers/application-stats.resolver';
 import { HelpResolver } from '@core/resolvers/help.resolver';
+import { PopularProjectsResolver } from '@core/resolvers/popular-projects.resolver';
 import { PublicProjectResolver } from '@core/resolvers/public-projects.resolver';
+import { UserStatsResolver } from '@core/resolvers/user-stats.resolver';
 import { FollowingComponent } from './components/following/following.component';
 import { HelpDetailComponent } from './components/help-detail/help-detail.component';
 
@@ -27,6 +30,9 @@ const routes: Routes = [
         component: HomepageComponent,
         resolve: {
           projects: PublicProjectResolver,
+          popularProjects: PopularProjectsResolver,
+          userStats: UserStatsResolver,
+          applicationStats: ApplicationStatsResolver,
         },
       },
       {
