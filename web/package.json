@@ -52,7 +52,7 @@
     "d3": "5.7.0",
     "firebase": "^5.5.9",
     "hammerjs": "2.0.8",
-    "highlight.js": "9.13.1",
+    "highlight.js": "10.4.1",
     "marked": "^0.7.0",
     "ngx-device-detector": "^1.3.4",
     "normalize.css": "8.0.0",
