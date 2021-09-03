@@ -12,17 +12,17 @@
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Type</th>
       <td mat-cell *matCellDef="let element">
-        <img *ngIf = "element.logoUrl; else imagePlaceholder" [src]="element.logoUrl" />
+        <img *ngIf="element.logoUrl; else imagePlaceholder" [src]="element.logoUrl" />
         <ng-template #imagePlaceholder>
-          <mat-icon class="material-icons-outlined green-color">{{ checkTypeOfProject(element) }}</mat-icon >
+          <mat-icon class="material-icons-outlined green-color">{{ checkTypeOfProject(element) }}</mat-icon>
         </ng-template>
       </td>
     </ng-container>
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Title</th>
-      <td mat-cell *matCellDef="let element">
-        <div fxLayout.xs="column" fxLayoutAlign="start start" class="project__list__title">
-          <div><a [routerLink]="['/projects', element.uid]" class="project__list__title">{{ element.title }}</a></div>
+      <td mat-cell *matCellDef="let element" class="project__list__item">
+        <div fxLayout.xs="column" fxLayoutAlign="start start" class="project__list__title project__list__item__content">
+          <div class="project__list__item__content"><a class="project__list__title" [routerLink]="['/projects', element.uid]">{{ element.title }}</a></div>
           <div *ngIf="isSmallScreen">
             {{ (element.access.admin[0] | user | async)?.username }}
           </div>
@@ -35,8 +35,8 @@
     </ng-container>
     <ng-container matColumnDef="url">
       <th mat-header-cell *matHeaderCellDef>Url</th>
-      <td mat-cell *matCellDef="let element" class="project__list__url">
-        <div class="project__list__url__content">
+      <td mat-cell *matCellDef="let element" class="project__list__item">
+        <div class="project__list__item__content">
           <a href="{{ element.url }}" *ngIf="element.url">{{ element.url }}</a>
         </div>
       </td>
@@ -70,10 +70,12 @@
     </ng-container>
     <ng-container matColumnDef="user">
       <th mat-header-cell *matHeaderCellDef>User</th>
-      <td mat-cell *matCellDef="let element">
-        <a href="https://github.com/{{ (element.access.admin[0] | user | async)?.username }}">
-          {{ (element.access.admin[0] | user | async)?.username }}
-        </a>
+      <td mat-cell *matCellDef="let element" class="project__list__item">
+        <div class="project__list__item__content">
+          <a href="https://github.com/{{ (element.access.admin[0] | user | async)?.username }}">
+            {{ (element.access.admin[0] | user | async)?.username }}
+          </a>
+        </div>
       </td>
     </ng-container>
     <ng-container matColumnDef="lastDate">
